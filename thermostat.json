@@ -1,0 +1,1395 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 1,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 13,
+        "options": {
+          "buttonGroup": {
+            "orientation": "center",
+            "size": "md"
+          },
+          "elements": [
+            {
+              "id": "temp",
+              "labelWidth": 10,
+              "max": 50,
+              "min": 0,
+              "section": "",
+              "step": 1,
+              "title": "Temperatura",
+              "tooltip": "",
+              "type": "number",
+              "value": 21
+            },
+            {
+              "id": "mode",
+              "labelWidth": 10,
+              "options": [
+                {
+                  "label": "Local",
+                  "value": "L"
+                },
+                {
+                  "label": "Remoto",
+                  "value": "R"
+                }
+              ],
+              "section": "",
+              "title": "Modo",
+              "tooltip": "",
+              "type": "radio",
+              "value": "L"
+            }
+          ],
+          "initial": {
+            "code": "(async () => {\n  console.log(data, response, 'initial', initial, elements)\n  console.log(initial);\n  elements.map((element) => {\n    console.log(element.id);\n    if (element.id === 'temp') {\n      element.value = initial.result.temp;\n    }\n    if (element.id === 'mode') {\n      element.value = initial.result.mode;\n    }\n  });\n})();",
+            "contentType": "application/json",
+            "header": [
+              {
+                "name": "Authorization",
+                "value": "Basic YWRtaW46VGhlcm1vc3RhdHR0dHR0"
+              }
+            ],
+            "highlight": false,
+            "highlightColor": "red",
+            "method": "GET",
+            "url": "http://ec2-54-72-95-199.eu-west-1.compute.amazonaws.com:3001/api/v1/thermostat/temp"
+          },
+          "layout": {
+            "variant": "single"
+          },
+          "reset": {
+            "backgroundColor": "purple",
+            "foregroundColor": "yellow",
+            "icon": "process",
+            "text": "Reset",
+            "variant": "hidden"
+          },
+          "submit": {
+            "backgroundColor": "purple",
+            "foregroundColor": "yellow",
+            "icon": "cloud-upload",
+            "text": "Submit",
+            "variant": "primary"
+          },
+          "update": {
+            "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+            "confirm": false,
+            "contentType": "application/json",
+            "header": [
+              {
+                "name": "Authorization",
+                "value": "Basic YWRtaW46VGhlcm1vc3RhdHR0dHR0"
+              }
+            ],
+            "method": "POST",
+            "updatedOnly": true,
+            "url": "http://ec2-54-72-95-199.eu-west-1.compute.amazonaws.com:3001/api/v1/thermostat/temp"
+          }
+        },
+        "title": "Controles",
+        "type": "volkovlabs-form-panel"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "establecida"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "celsius"
+                },
+                {
+                  "id": "min",
+                  "value": 0
+                },
+                {
+                  "id": "max",
+                  "value": 50
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-BlYlRd"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "estado actual"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "#808080",
+                          "index": 1,
+                          "text": "Apagado"
+                        },
+                        "1": {
+                          "color": "super-light-green",
+                          "index": 0,
+                          "text": "Encendido"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "horas encendido"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-YlBl"
+                  }
+                },
+                {
+                  "id": "unit",
+                  "value": "dthms"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "modo actual"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "light-blue",
+                          "index": 0,
+                          "text": "Remoto"
+                        },
+                        "1": {
+                          "color": "light-yellow",
+                          "index": 1,
+                          "text": "Local"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "palette-classic"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  date,\n  setted as Establecida\nFROM\n  setted \nWHERE\n  date = (select max(date) from setted)",
+            "refId": "Establecida",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  date,\n  status as \"estado actual\"\nFROM\n  status\nWHERE\n  date = (select max(date) from status)",
+            "refId": "Estado actual",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  date,\n  case\n    when mode = 'L' then 1\n    else 0\n  end as \"modo actual\"\nFROM\n  mode\nWHERE\n  date = (\n    select\n      max(date)\n    from\n      mode\n  )",
+            "refId": "Modo actual",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT count(*) as \"horas encendido\"\nfrom status \nWHERE status = 1\nand $__timeFilter(date) ",
+            "refId": "Horas encendido",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Resumen global",
+        "type": "stat"
+      },
+      {
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 30,
+        "panels": [],
+        "repeat": "stations",
+        "repeatDirection": "h",
+        "title": "Estacion $stations",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "temperatura"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "celsius"
+                },
+                {
+                  "id": "min",
+                  "value": 0
+                },
+                {
+                  "id": "max",
+                  "value": 50
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-BlYlRd"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "humedad"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "percent"
+                },
+                {
+                  "id": "min",
+                  "value": 0
+                },
+                {
+                  "id": "max",
+                  "value": 100
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-YlBl"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "uptime"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeFromNow"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-YlBl"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 5,
+          "x": 0,
+          "y": 13
+        },
+        "id": 26,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__time(date),\n  temperature as Temperatura\nFROM\n  read\nWHERE\n  date = (select max(date) from read where station_id = $stations)\n  and station_id = $stations",
+            "refId": "Temperatura",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__time(date),\n  humidity as Humedad\nFROM\n  read\nWHERE\n  date = (select max(date) from read where station_id = $stations)\n  and station_id = $stations",
+            "refId": "Humedad",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Actual",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-BlYlRd"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 4,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "max": 40,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "celsius"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Estacion central"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "light-red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Temperatura e1936900"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#ff7b00",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Temperatura e3776900"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "yellow",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 19,
+          "x": 5,
+          "y": 13
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__time(date),\n  temperature as \"Temperatura\"\nFROM\n  read\nWHERE\n  $__timeFilter(date)\n  and station_id = $stations",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "temperature",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [],
+                "id": "b89b99aa-89ab-4cde-b012-318576d4b4d3",
+                "type": "group"
+              }
+            },
+            "table": "read"
+          }
+        ],
+        "title": "Temperatura",
+        "transformations": [
+          {
+            "id": "prepareTimeSeries",
+            "options": {
+              "format": "many"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-YlBl"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 4,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "max": 70,
+            "min": 30,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Humedad e1936900"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#00eaf7",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Humedad e3776900"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#4a63ff",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 19,
+          "x": 5,
+          "y": 18
+        },
+        "id": 4,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__time(date),\n  humidity as \"Humedad\"\nFROM\n  read\nWHERE\n  $__timeFilter(date)\n  and station_id = $stations",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "temperature",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [],
+                "id": "b89b99aa-89ab-4cde-b012-318576d4b4d3",
+                "type": "group"
+              }
+            },
+            "table": "read"
+          }
+        ],
+        "title": "Humedad",
+        "transformations": [],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "uptime"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeFromNow"
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "continuous-YlBl"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 0,
+          "y": 19
+        },
+        "id": 35,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "SELECT \n  extract(epoch from (max(date))) * 1000 uptime\nFROM\n  startup \nwhere\n  station_id = $stations",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Último arranque",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 34
+        },
+        "id": 28,
+        "panels": [],
+        "title": "General",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-GrYlRd"
+            },
+            "custom": {
+              "fillOpacity": 70,
+              "lineWidth": 0,
+              "spanNulls": false
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "index": 0,
+                    "text": "Off"
+                  },
+                  "1": {
+                    "color": "green",
+                    "index": 1,
+                    "text": "On"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "min": -2,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 24,
+          "x": 0,
+          "y": 35
+        },
+        "id": 3,
+        "options": {
+          "alignValue": "left",
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "mergeValues": true,
+          "rowHeight": 0.88,
+          "showValue": "auto",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  date,\n  status\nFROM\n  status \nWHERE\n  $__timeFilter(date) ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "temperature",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [],
+                "id": "b89b99aa-89ab-4cde-b012-318576d4b4d3",
+                "type": "group"
+              }
+            },
+            "table": "read"
+          }
+        ],
+        "title": "Estado",
+        "type": "state-timeline"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-GrYlRd"
+            },
+            "custom": {
+              "fillOpacity": 70,
+              "lineWidth": 0,
+              "spanNulls": false
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "light-blue",
+                    "index": 0,
+                    "text": "Remoto"
+                  },
+                  "1": {
+                    "color": "light-yellow",
+                    "index": 1,
+                    "text": "Local"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "min": -2,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 24,
+          "x": 0,
+          "y": 39
+        },
+        "id": 41,
+        "options": {
+          "alignValue": "left",
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "mergeValues": true,
+          "rowHeight": 0.88,
+          "showValue": "auto",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  date,\n  case\n    when mode = 'L' then 1\n    else 0\n  end as \"modo actual\"\nFROM\n  mode\nWHERE\n  $__timeFilter(date) ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "temperature",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [],
+                "id": "b89b99aa-89ab-4cde-b012-318576d4b4d3",
+                "type": "group"
+              }
+            },
+            "table": "read"
+          }
+        ],
+        "title": "Modo",
+        "type": "state-timeline"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "TcbEb9tVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto",
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 43
+        },
+        "id": 8,
+        "options": {
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "TcbEb9tVk"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "hide": false,
+            "rawQuery": true,
+            "rawSql": "select * from (\nSELECT MAX(date) as Fecha, 'Lectura' as Última, station_id FROM read where station_id is not null group by station_id\nunion\nSELECT MAX(date) as Fecha, 'Actualización de estado' as Última, 'N/A' FROM status\nunion\nSELECT MAX(date) as Fecha, 'Actualización de modo' as Última, 'N/A' FROM mode\nunion\nSELECT MAX(date) as Fecha, 'Establecimiento de temperatura' as Última, 'N/A' FROM setted \nunion\nSELECT MAX(date) as Fecha, 'Arranqe' as Última, station_id FROM startup where station_id is not null group by station_id\n) sq order by fecha DESC",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "alias": "\"Última lectura\"",
+                  "name": "MAX",
+                  "parameters": [
+                    {
+                      "name": "date",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "read"
+          }
+        ],
+        "title": "Últimas actualizaciones",
+        "type": "table"
+      }
+    ],
+    "schemaVersion": 37,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "e3776900",
+              "e1936900"
+            ],
+            "value": [
+              "e3776900",
+              "e1936900"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "TcbEb9tVk"
+          },
+          "definition": "select station_id from startup where date > now() - interval '1 week' and station_id is not null order by station_id desc",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Estaciones",
+          "multi": true,
+          "name": "stations",
+          "options": [],
+          "query": "select station_id from startup where date > now() - interval '1 week' and station_id is not null order by station_id desc",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Termostato",
+    "uid": "1gEZ4qpVk",
+    "version": 121,
+    "weekStart": ""
+  }
